@@ -9,7 +9,6 @@ RUN npm install
 
 COPY . /app
 
-CMD npm run build
 
 CMD npm run serve
 
