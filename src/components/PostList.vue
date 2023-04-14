@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h3>A list of users</h3>
+  <div v-if="posts.length > 0">
+    <h3>A list of posts</h3>
     <post-item
       v-for="post in posts"
       v-bind:post="post"
@@ -8,6 +8,9 @@
       @remove="$emit('remove', post)"
     />
   </div>
+  <h2 v-else style="color: red">
+    post list is empty
+  </h2>
 </template>
 
 <script>
