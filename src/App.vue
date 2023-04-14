@@ -1,8 +1,16 @@
 <template>
   <div class="app">
-    <post-form
-      @create="createPost"
-    />
+    <h1>post page</h1>
+    <my-button
+      @click="showDialog"
+    >
+      create a post
+    </my-button>
+    <my-dialog v-model:show="dialogVisible">
+      <post-form
+        @create="createPost"
+      />
+    </my-dialog>
     <post-list
       v-bind:posts="posts"
       @remove="removePost"
@@ -21,18 +29,23 @@ export default {
   data() {
     return {
       posts: [
-             {id: 1, title: 'javascript1', body: 'post description1'},
-             {id: 2, title: 'javascript2', body: 'post description2'},
-             {id: 3, title: 'javascript3', body: 'post description3'}
-             ],
+         {id: 1, title: 'javascript1', body: 'post description1'},
+         {id: 2, title: 'javascript2', body: 'post description2'},
+         {id: 3, title: 'javascript3', body: 'post description3'}
+      ],
+      dialogVisible: false,
     }
   },
   methods: {
     createPost(post) {
       this.posts.push(post);
+      this.dialogVisible = false;
     },
     removePost(post) {
       this.posts = this.posts.filter(p => p.id !== post.id)
+    },
+    showDialog() {
+      this.dialogVisible = true;
     }
   }
 }
@@ -40,8 +53,8 @@ export default {
 
 <style>
 * {
-   margin: 0;
-   padding: 0;
+   margin: 10;
+   padding: 10;
    box-sizing: border-box;
 }
 </style>
