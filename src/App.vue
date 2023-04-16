@@ -14,13 +14,16 @@
     <post-list
       v-bind:posts="posts"
       @remove="removePost"
+      v-if="!isPostsLoading"
     />
+    <div v-else>Loading process</div>
   </div>
 </template>
 
 <script>
 import PostForm from "@/components/PostForm";
 import PostList from "@/components/PostList";
+import axios from 'axios';
 
 export default {
   components: {
@@ -28,12 +31,9 @@ export default {
   },
   data() {
     return {
-      posts: [
-         {id: 1, title: 'javascript1', body: 'post description1'},
-         {id: 2, title: 'javascript2', body: 'post description2'},
-         {id: 3, title: 'javascript3', body: 'post description3'}
-      ],
+      posts: [],
       dialogVisible: false,
+      isPostsLoading: false,
     }
   },
   methods: {
@@ -46,9 +46,24 @@ export default {
     },
     showDialog() {
       this.dialogVisible = true;
+    },
+    async fetchPosts() {
+      try {
+        this.isPostsLoading = true;
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
+        this.posts = response.data;
+      } catch (e) {
+        alert('Error')
+      } finally {
+        this.isPostsLoading = false;
+      }
     }
+  },
+  mounted() {
+    this.fetchPosts();
   }
 }
+
 </script>
 
 <style>
